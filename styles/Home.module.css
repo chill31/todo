@@ -1,5 +1,6 @@
 .main {
-  min-height: 650px;
+  min-height: fit-content;
+  height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: flex-start;
@@ -10,6 +11,10 @@
   overflow-x: hidden !important;
 }
 
+.dark {
+  background-color: rgb(45, 53, 62);
+}
+
 .title {
   text-align: center;
   position: relative;
@@ -17,11 +22,38 @@
   font-size: 3.6rem;
 }
 
+.dark :where(.title, .disclaimer) {
+  color: white;
+}
+
 .disclaimer {
   margin: 0;
   font-size: 1.5rem;
   max-width: 85vw;
   text-align: center;
+}
+
+.themeWrapper {
+  border: none;
+  background-color: rgba(0, 0, 0, .25);
+  border-radius: 50%;
+  height: fit-content;
+  aspect-ratio: 1;
+  padding: .5rem;
+  color: black;
+  font-size: 2rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dark .themeWrapper {
+  background-color: rgba(255, 255, 255, .25);
+  color: white;
 }
 
 .createGroupBtn {
@@ -39,6 +71,17 @@
   transition-property: background-color, color, border-color;
 }
 
+.dark .createGroupBtn {
+  border: solid 1px white;
+  background-color: black;
+  color: white;
+}
+
+.dark .createGroupBtn:where(:hover, :focus, :active) {
+  color: black;
+  background-color: white;
+}
+
 .createGroupBtn:where(:hover, :focus, :active) {
   background-color: black;
   color: white;
@@ -54,7 +97,7 @@
 .mainModal {
   height: 100%;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.388);
+  background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 0;
   left: 0;
@@ -86,6 +129,14 @@
   gap: 2rem;
   position: relative;
   max-width: calc(100vw - 3rem);
+}
+
+.dark .modal {
+  background-color: rgb(17, 20, 21);
+}
+
+.dark .modal *:not(input, button) {
+  color: white;
 }
 
 .modalHead {
@@ -139,6 +190,18 @@
   transition-property: background-color, border-color, color;
 }
 
+.dark .modalBtn {
+  background-color: transparent;
+  border: solid 1px white;
+  color: white;
+}
+
+.dark .modalBtn:where(:hover, :focus, :active) {
+  background-color: white;
+  color: black;
+  border-color: transparent;
+}
+
 .modalBtn:where(:hover, :focus, :active) {
   background-color: black;
   color: white;
@@ -162,7 +225,7 @@
 
 .group {
   border-radius: .6rem;
-  background-color: #ade6f5;
+  background-color: #9eedef;
   padding: 2rem;
   display: flex;
   justify-content: flex-start;
@@ -172,6 +235,14 @@
   width: 50rem;
   max-width: 65vw;
   overflow-x: hidden;
+}
+
+.dark .group {
+  background-color: #344d65;
+}
+
+.dark .group :where(.groupTitle, .titleMethodIcon, .tasks) {
+  color: white;
 }
 
 .groupTitle {
@@ -206,6 +277,25 @@
   transition-property: background-color, color, border-color;
 }
 
+.dark .createTaskBtn {
+  background-color: black;
+  color: white;
+}
+
+.addTaskIcon {
+  font-size: 2rem;
+}
+
+.dark .createTaskBtn:where(:hover, :focus, :active) {
+  background-color: white;
+  color: black;
+  border-color: transparent;
+}
+
+.dark .createTaskBtn:where(:hover, :focus, :active) * {
+  color: black !important;
+}
+
 .createTaskBtn:where(:hover, :focus, :active) {
   background-color: black;
   color: white;
@@ -233,13 +323,21 @@
   text-decoration: none;
 }
 
-.done {
+.done .actualTask {
   text-decoration: 2px line-through;
   color: rgb(94, 94, 94);
 }
 
+.dark .done .actualTask {
+  color:rgb(156, 156, 156) !important;
+}
+
 .important {
-  background-color: rgba(255, 0, 0, 0.219);
+  background-color: rgba(255, 0, 0, 0.422);
+}
+
+.dark .important {
+  background-color: rgba(255, 0, 0, .229);
 }
 
 .text {
@@ -279,5 +377,9 @@
 }
 
 .deleteTask {
-  color: rgb(255, 49, 49);
+  color: #ff3131;
+}
+
+.dark .deleteTask {
+  color: #ff7a63 !important;
 }

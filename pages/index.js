@@ -3,7 +3,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
 // UI IMPORTS
-import { BsPlus, BsXLg, BsTrash, BsPencilSquare, BsCheck2Square, BsExclamationLg, BsDashLg } from 'react-icons/bs'
+import { BsPlus, BsXLg, BsTrash, BsPencilSquare, BsCheck2Square, BsExclamationLg, BsDashLg, BsSun, BsMoon } from 'react-icons/bs'
 
 // HOOKS IMPORTS
 import { useEffect, useState } from 'react'
@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react'
 export default function Home() {
 
   const [data, setData] = useState([]);
+  const [darkTheme, setDarkTheme] = useState(false);
   const [groupVisible, setGroupVisible] = useState(false);
   const [editGroupVisible, setEditGroupVisible] = useState(false);
   const [taskVisible, setTaskVisible] = useState(false);
@@ -174,11 +175,23 @@ export default function Home() {
 
   }
 
+  const changeTheme = () => {
+    const currentData = darkTheme;
+    setDarkTheme(!currentData);
+    localStorage.setItem("todo-app-theme-isdark", !currentData);
+  }
+
   useEffect(() => {
 
     if (!localStorage.getItem("todo-app-data")) {
       localStorage.setItem("todo-app-data", "[]");
     }
+
+    if (!localStorage.getItem("todo-app-theme-isdark")) {
+      localStorage.setItem("todo-app-theme-isdark", false);
+    }
+
+    setDarkTheme(JSON.parse(localStorage.getItem("todo-app-theme-isdark")));
 
     setData(JSON.parse(localStorage.getItem("todo-app-data")));
 
@@ -212,15 +225,59 @@ export default function Home() {
         <meta name="description" content="Advanced TO-DO: manage your tasks with this app. It has a groups feature to separate different types of tasks from other tasks." />
       </Head>
 
-      <main className={styles.main}>
+      <main className={`${styles.main} ${darkTheme ? styles.dark : styles.light}`}>
 
         <h1 className={styles.title}>TO-DO</h1>
         <p className={styles.disclaimer}>Desktop or tablet is preferred to use all features of this app. Mobile styles are currently under development and may be glitched</p>
+
+        <button className={styles.themeWrapper} onClick={changeTheme}>
+          {
+            darkTheme ? <BsMoon className={styles.themeIcon} /> : <BsSun className={styles.themeIcon} />
+          }
+        </button>
 
         <button className={`${styles.createGroupBtn} createGroupBtn`} onClick={openModal}>
           <BsPlus className={styles.btnIcon} />
           Create a group
         </button>
+
+        <div className={styles.groupContainer}>
+
+          {data.map((item, k) => (
+            <div className={styles.group} key={k}>
+              <h2 className={styles.groupTitle}>{item.group} <BsTrash tabIndex="0" className={styles.titleMethodIcon} onClick={() => removeGroup(k)} /> <BsPencilSquare tabIndex="0" className={styles.titleMethodIcon} onClick={() => editGroupModal(k)} /></h2>
+
+              <button className={styles.createTaskBtn} data-index={k} onClick={() => addTaskModal(k)}><BsPlus className={styles.addTaskIcon} /> Add Task</button>
+
+              <ul className={styles.tasks}>
+
+                {item.tasks.map((task, i) => (
+
+                  <li className={`${styles.task} ${task.done ? styles.done : styles.pending} ${task.important ? styles.important : styles.normal}`} key={i + 1000}>
+
+                    {
+                      task.important ?
+                        <span className={styles.text}><span className={styles.importantMark}>!</span> <span className={styles.actualTask}>{task.task}</span></span> :
+                        <span className={styles.text}><span className={styles.actualTask}>{task.task}</span></span>
+                    }
+                    <div className={styles.taskFunctions}>
+
+                      {task.important ? <BsDashLg tabIndex="0" className={styles.importanceIcon} onClick={() => setAsNormal(k, i)} /> : <BsExclamationLg tabIndex="0" className={styles.importanceIcon} onClick={() => setAsImportant(k, i)} />}
+                      <BsPencilSquare tabIndex="0" className={styles.editIcon} onClick={() => editTaskModal(k, i)} />
+                      {task.done ? <BsXLg tabIndex="0" className={styles.statusIcon} onClick={() => setTaskAsPending(k, i)} /> : <BsCheck2Square tabIndex="0" className={styles.statusIcon} onClick={() => setTaskAsDone(k, i)} />}
+                      <BsTrash tabIndex="0" className={styles.deleteTask} onClick={() => deleteTask(k, i)} />
+
+                    </div>
+
+                  </li>
+
+                ))}
+
+              </ul>
+            </div>
+          ))}
+
+        </div>
 
         <div className={`${styles.mainModal} ${groupVisible ? styles.visible : ""} mainModal`} data-modal="true">
 
@@ -292,44 +349,6 @@ export default function Home() {
             <button className={styles.modalBtn} onClick={editTask}>Confirm</button>
 
           </div>
-
-        </div>
-
-        <div className={styles.groupContainer}>
-
-          {data.map((item, k) => (
-            <div className={styles.group} key={k}>
-              <h2 className={styles.groupTitle}>{item.group} <BsTrash className={styles.titleMethodIcon} onClick={() => removeGroup(k)} /> <BsPencilSquare className={styles.titleMethodIcon} onClick={() => editGroupModal(k)} /></h2>
-
-              <button className={styles.createTaskBtn} data-index={k} onClick={() => addTaskModal(k)}><BsPlus className={styles.addTaskIcon} /> Add Task</button>
-
-              <ul className={styles.tasks}>
-
-                {item.tasks.map((task, i) => (
-
-                  <li className={`${styles.task} ${task.done ? styles.done : styles.pending} ${task.important ? styles.important : styles.normal}`} key={i + 1000}>
-
-                    {
-                      task.important ?
-                      <span className={styles.text}><span className={styles.importantMark}>!</span> {task.task}</span> :
-                      <span className={styles.text}>{task.task}</span>
-                    }
-                    <div className={styles.taskFunctions}>
-
-                      {task.important ? <BsDashLg className={styles.importanceIcon} onClick={() => setAsNormal(k, i)} /> : <BsExclamationLg className={styles.importanceIcon} onClick={() => setAsImportant(k, i)} />}
-                      <BsPencilSquare className={styles.editIcon} onClick={() => editTaskModal(k, i)} />
-                      {task.done ? <BsXLg className={styles.statusIcon} onClick={() => setTaskAsPending(k, i)} /> : <BsCheck2Square className={styles.statusIcon} onClick={() => setTaskAsDone(k, i)} />}
-                      <BsTrash className={styles.deleteTask} onClick={() => deleteTask(k, i)} />
-
-                    </div>
-
-                  </li>
-
-                ))}
-
-              </ul>
-            </div>
-          ))}
 
         </div>
       </main>

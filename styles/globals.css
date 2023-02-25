@@ -13,3 +13,8 @@
 body {
   overflow-x: hidden;
 }
+
+::selection {
+  background-color: #34cee2 !important;
+  color: black;
+}
