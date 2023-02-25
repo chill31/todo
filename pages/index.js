@@ -215,7 +215,7 @@ export default function Home() {
       <main className={styles.main}>
 
         <h1 className={styles.title}>TO-DO</h1>
-        <p className={styles.disclaimer}>Desktop or tablet is preferred to fully use this app. Mobile styles are currently under development</p>
+        <p className={styles.disclaimer}>Desktop or tablet is preferred to use all features of this app. Mobile styles are currently under development and may be glitched</p>
 
         <button className={`${styles.createGroupBtn} createGroupBtn`} onClick={openModal}>
           <BsPlus className={styles.btnIcon} />
