@@ -1,129 +1,283 @@
-.container {
-  padding: 0 2rem;
-}
-
 .main {
-  min-height: 100vh;
-  padding: 4rem 0;
-  flex: 1;
+  min-height: 650px;
+  width: 100vw;
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
-
-.title a {
-  color: #0070f3;
-  text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
+  gap: 5rem;
+  padding-bottom: 3rem;
+  overflow-x: hidden !important;
 }
 
 .title {
-  margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
+  text-align: center;
+  position: relative;
+  top: 2rem;
+  font-size: 3.6rem;
 }
 
-.title,
-.description {
+.disclaimer {
+  margin: 0;
+  font-size: 1.5rem;
+  max-width: 85vw;
   text-align: center;
 }
 
-.description {
-  margin: 4rem 0;
-  line-height: 1.5;
-  font-size: 1.5rem;
-}
-
-.code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
-}
-
-.grid {
+.createGroupBtn {
+  padding: .5rem 1rem;
+  font-size: 1.3rem;
+  border-radius: .4rem;
+  border: solid 1px black;
+  outline: none !important;
+  cursor: pointer;
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
+  align-items: center;
+  gap: .5rem;
+  transition: 250ms ease;
+  transition-property: background-color, color, border-color;
 }
 
-.card {
-  margin: 1rem;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
+.createGroupBtn:where(:hover, :focus, :active) {
+  background-color: black;
+  color: white;
+  border-color: transparent;
+}
+
+.btnIcon {
+  font-size: 2rem;
+}
+
+/** MODAL CUSTOM STYLES */
+
+.mainModal {
+  height: 100%;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.388);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(0);
+  opacity: 0;
+  transform-origin: bottom;
+  transition: 400ms ease-out;
+  transition-property: opacity;
+}
+
+.visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.modal {
+  padding: 3rem 4rem;
+  padding-left: 1rem;
+  background-color: white;
+  border-radius: .4rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  max-width: calc(100vw - 3rem);
+}
+
+.modalHead {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: .4rem;
+  flex-direction: column;
+}
+
+.groupName {
+  font-size: 1.15rem;
+}
+
+.modalClose {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.modalTitle {
+  font-size: 2.2rem;
+}
+
+.modalInput {
+  font-size: 1.2rem;
+  padding: .5rem .7rem;
+  outline: none !important;
+  border: solid 1px black;
+  max-width: calc(100% + 2rem);
+}
+
+.modalInput:focus {
+  border: solid 1px #02c8e3;
+}
+
+.modalBtn {
+  align-self: flex-end;
+  background-color: white;
+  color: black;
+  border: solid 1px black;
+  border-radius: .2rem;
+  margin-top: 1rem;
+  padding: .4rem .6rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  outline: none !important;
+  transition: 400ms ease;
+  transition-property: background-color, border-color, color;
+}
+
+.modalBtn:where(:hover, :focus, :active) {
+  background-color: black;
+  color: white;
+  border-color: transparent;
+}
+
+/** MAIN CODE ONCE AGAIN */
+
+.groupContainer {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 3rem;
+}
+
+@media (max-width: 860px) {
+
+  .group {
+    max-width: 85vw !important;
+  }
+}
+
+.group {
+  border-radius: .6rem;
+  background-color: #ade6f5;
+  padding: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1.2rem;
+  flex-direction: column;
+  width: 50rem;
+  max-width: 65vw;
+  overflow-x: hidden;
+}
+
+.groupTitle {
+  font-size: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.titleMethodIcon {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, .1);
+  padding: .2rem;
+  border-radius: .2rem;
+}
+
+.createTaskBtn {
+  padding: .5rem .8rem;
+  margin-top: .7rem;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  border-radius: .4rem;
+  border: solid 1px black;
+  outline: none !important;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  transition: 250ms ease;
+  transition-property: background-color, color, border-color;
+}
+
+.createTaskBtn:where(:hover, :focus, :active) {
+  background-color: black;
+  color: white;
+  border-color: transparent;
+}
+
+.tasks {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1ch;
+  width: 100%;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 1.2rem;
+}
+
+.pending {
   text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
 }
 
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+.done {
+  text-decoration: 2px line-through;
+  color: rgb(94, 94, 94);
 }
 
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
+.important {
+  background-color: rgba(255, 0, 0, 0.219);
 }
 
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
+.text {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
 }
 
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
+.important .importantMark {
+  font-size: 2rem;
 }
 
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
+.important .text {
+  padding-left: .5rem;
+  padding-right: .7rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  .card,
-  .footer {
-    border-color: #222;
-  }
-  .code {
-    background: #111;
-  }
-  .logo img {
-    filter: invert(1);
-  }
+.important .deleteTask {
+  color: black;
+}
+
+.normal {
+  font-size: 1.2rem;
+}
+
+.taskFunctions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.editIcon, .statusIcon, .deleteTask, .importanceIcon {
+  cursor: pointer;
+  font-size: 1.4rem;
+}
+
+.deleteTask {
+  color: rgb(255, 49, 49);
 }
