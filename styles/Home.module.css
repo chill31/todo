@@ -1,6 +1,5 @@
 .main {
-  min-height: fit-content;
-  height: 100vh;
+  min-height: 650px;
   width: 100vw;
   display: flex;
   justify-content: flex-start;
@@ -9,10 +8,6 @@
   gap: 5rem;
   padding-bottom: 3rem;
   overflow-x: hidden !important;
-}
-
-.dark {
-  background-color: rgb(45, 53, 62);
 }
 
 .title {
@@ -208,7 +203,13 @@
   border-color: transparent;
 }
 
+
+/* */
+
 /** MAIN CODE ONCE AGAIN */
+
+/* */
+
 
 .groupContainer {
   display: grid;
@@ -251,6 +252,8 @@
   justify-content: flex-start;
   align-items: center;
   gap: 1rem;
+  line-break: anywhere;
+  max-width: 100%;
 }
 
 .titleMethodIcon {
@@ -258,6 +261,12 @@
   background-color: rgba(0, 0, 0, .1);
   padding: .2rem;
   border-radius: .2rem;
+}
+
+@media (max-width: 500px) {
+  .titleMethodIcon {
+    font-size: 2.5rem;
+  }
 }
 
 .createTaskBtn {

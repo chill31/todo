@@ -10,6 +10,16 @@ import { useEffect, useState } from 'react'
 
 export default function Home() {
 
+  function truncate(text, maxLength, content) {
+
+    if (text.length <= maxLength) {
+      return text;
+    }
+  
+    const truncated = text.slice(0, maxLength);
+    return truncated + content  
+  }
+
   const [data, setData] = useState([]);
   const [darkTheme, setDarkTheme] = useState(false);
   const [groupVisible, setGroupVisible] = useState(false);
@@ -155,30 +165,23 @@ export default function Home() {
     setData(updatedData);
   }
 
-  const setAsImportant = (groupIndex, taskIndex) => {
-
-    const fnData = [...data];
-    fnData[groupIndex].tasks[taskIndex].important = true;
-
-    setData(fnData);
-    localStorage.setItem("todo-app-data", JSON.stringify(fnData));
-
-  }
-
-  const setAsNormal = (groupIndex, taskIndex) => {
-
-    const fnData = [...data];
-    fnData[groupIndex].tasks[taskIndex].important = false;
-
-    setData(fnData);
-    localStorage.setItem("todo-app-data", JSON.stringify(fnData));
-
-  }
-
   const changeTheme = () => {
     const currentData = darkTheme;
     setDarkTheme(!currentData);
+    document.body.classList.remove(currentData == false ? 'light' : 'dark');
+    document.body.classList.add(currentData == true ? 'light' : 'dark');
     localStorage.setItem("todo-app-theme-isdark", !currentData);
+  }
+
+  const setTheme = () => {
+    const storage = JSON.parse(localStorage.getItem("todo-app-theme-isdark"));
+    if(storage == true) {
+      document.body.classList.add('dark');
+      document.body.classList.remove('light');
+    } else {
+      document.body.classList.remove('dark');
+      document.body.classList.add('light');
+    }
   }
 
   useEffect(() => {
@@ -192,8 +195,9 @@ export default function Home() {
     }
 
     setDarkTheme(JSON.parse(localStorage.getItem("todo-app-theme-isdark")));
-
     setData(JSON.parse(localStorage.getItem("todo-app-data")));
+
+    setTheme();
 
     addEventListener("keydown", (e) => {
       if (e.key === 'Escape') {
@@ -216,6 +220,7 @@ export default function Home() {
       });
     });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -245,7 +250,7 @@ export default function Home() {
 
           {data.map((item, k) => (
             <div className={styles.group} key={k}>
-              <h2 className={styles.groupTitle}>{item.group} <BsTrash tabIndex="0" className={styles.titleMethodIcon} onClick={() => removeGroup(k)} /> <BsPencilSquare tabIndex="0" className={styles.titleMethodIcon} onClick={() => editGroupModal(k)} /></h2>
+              <h2 className={styles.groupTitle}>{truncate(item.group, 8, '..')} <BsTrash tabIndex="0" className={styles.titleMethodIcon} onClick={() => removeGroup(k)} /> <BsPencilSquare tabIndex="0" className={styles.titleMethodIcon} onClick={() => editGroupModal(k)} /></h2>
 
               <button className={styles.createTaskBtn} data-index={k} onClick={() => addTaskModal(k)}><BsPlus className={styles.addTaskIcon} /> Add Task</button>
 
@@ -253,16 +258,14 @@ export default function Home() {
 
                 {item.tasks.map((task, i) => (
 
-                  <li className={`${styles.task} ${task.done ? styles.done : styles.pending} ${task.important ? styles.important : styles.normal}`} key={i + 1000}>
+                  <li className={`${styles.task} ${task.done ? styles.done : styles.pending}`} key={i + 1000}>
 
                     {
                       task.important ?
                         <span className={styles.text}><span className={styles.importantMark}>!</span> <span className={styles.actualTask}>{task.task}</span></span> :
-                        <span className={styles.text}><span className={styles.actualTask}>{task.task}</span></span>
+                        <span className={styles.text}><span className={styles.actualTask}>{truncate(task.task, 20, '...')}</span></span>
                     }
                     <div className={styles.taskFunctions}>
-
-                      {task.important ? <BsDashLg tabIndex="0" className={styles.importanceIcon} onClick={() => setAsNormal(k, i)} /> : <BsExclamationLg tabIndex="0" className={styles.importanceIcon} onClick={() => setAsImportant(k, i)} />}
                       <BsPencilSquare tabIndex="0" className={styles.editIcon} onClick={() => editTaskModal(k, i)} />
                       {task.done ? <BsXLg tabIndex="0" className={styles.statusIcon} onClick={() => setTaskAsPending(k, i)} /> : <BsCheck2Square tabIndex="0" className={styles.statusIcon} onClick={() => setTaskAsDone(k, i)} />}
                       <BsTrash tabIndex="0" className={styles.deleteTask} onClick={() => deleteTask(k, i)} />
@@ -286,7 +289,7 @@ export default function Home() {
             <BsXLg className={styles.modalClose} onClick={closeModal} />
 
             <h2 className={styles.modalTitle}>Create Group</h2>
-            <input className={`${styles.modalInput} group-input`} placeholder="enter group name..." />
+            <input className={`${styles.modalInput} group-input`} placeholder="enter group name..." maxLength="15" />
 
             <button className={styles.modalBtn} onClick={addGroup}>Confirm</button>
 
@@ -305,7 +308,7 @@ export default function Home() {
               <span className={styles.groupName} id="edit-group-modal-group-name"></span>
             </div>
 
-            <input className={`${styles.modalInput} edit-group-input`} placeholder="enter group name..." id="edit-group-input" />
+            <input className={`${styles.modalInput} edit-group-input`} placeholder="enter group name..." id="edit-group-input" maxLength="15" />
 
             <button className={styles.modalBtn} onClick={editGroup}>Confirm</button>
 
@@ -323,7 +326,7 @@ export default function Home() {
               <h2 className={styles.modalTitle}>Add Task</h2>
               <span className={styles.groupName} id="modal-group-name"></span>
             </div>
-            <input className={styles.modalInput} placeholder="enter task..." id="task-input" />
+            <input className={styles.modalInput} placeholder="enter task..." id="task-input" maxLength="40" />
 
             <button className={styles.modalBtn} id="confirm-task-btn" onClick={addTask}>Confirm</button>
 
@@ -344,7 +347,7 @@ export default function Home() {
               <span className={styles.groupName} id="edit-modal-task-name"></span>
             </div>
 
-            <input className={`${styles.modalInput} edit-task-input`} id="edit-task-input" placeholder="enter new task..." />
+            <input className={`${styles.modalInput} edit-task-input`} id="edit-task-input" placeholder="enter new task..." maxLength="40" />
 
             <button className={styles.modalBtn} onClick={editTask}>Confirm</button>
 
