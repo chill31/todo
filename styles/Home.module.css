@@ -354,6 +354,7 @@
   justify-content: flex-start;
   align-items: center;
   gap: 1rem;
+  line-break: loose;
 }
 
 .important .importantMark {
@@ -391,4 +392,18 @@
 
 .dark .deleteTask {
   color: #ff7a63 !important;
+}
+
+/** SETTING CODE FONTS FOR EQUAL SPACING **/
+
+.groupTitle {
+  font-family: "Code";
+}
+
+.task {
+  font-family: "Code" !important;
+}
+
+.groupName {
+  font-family: "Code";
 }
