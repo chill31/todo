@@ -3,7 +3,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
 // UI IMPORTS
-import { BsPlus, BsXLg, BsTrash, BsPencilSquare, BsCheck2Square, BsExclamationLg, BsDashLg, BsSun, BsMoon } from 'react-icons/bs'
+import { BsPlus, BsXLg, BsTrash, BsPencilSquare, BsCheck2Square, BsSun, BsMoon } from 'react-icons/bs'
 
 // HOOKS IMPORTS
 import { useEffect, useState } from 'react'
@@ -59,7 +59,7 @@ export default function Home() {
     modal.setAttribute('data-group-index', groupIndex);
     modal.setAttribute('data-task-index', taskIndex);
 
-    document.getElementById("edit-modal-group-name").textContent = data[groupIndex].group;
+    document.getElementById("edit-modal-group-name").textContent = `(${data[groupIndex].group})`;
     document.getElementById("edit-modal-task-name").textContent = `- ${data[groupIndex].tasks[taskIndex].task}`;
   }
 
@@ -233,7 +233,6 @@ export default function Home() {
       <main className={`${styles.main} ${darkTheme ? styles.dark : styles.light}`}>
 
         <h1 className={styles.title}>TO-DO</h1>
-        <p className={styles.disclaimer}>Desktop or tablet is preferred to use all features of this app. Mobile styles are currently under development and may be glitched</p>
 
         <button className={styles.themeWrapper} onClick={changeTheme}>
           {
