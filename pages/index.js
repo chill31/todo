@@ -10,16 +10,6 @@ import { useEffect, useState } from 'react'
 
 export default function Home() {
 
-  function truncate(text, maxLength, content) {
-
-    if (text.length <= maxLength) {
-      return text;
-    }
-  
-    const truncated = text.slice(0, maxLength);
-    return truncated + content  
-  }
-
   const [data, setData] = useState([]);
   const [darkTheme, setDarkTheme] = useState(false);
   const [groupVisible, setGroupVisible] = useState(false);
@@ -249,7 +239,7 @@ export default function Home() {
 
           {data.map((item, k) => (
             <div className={styles.group} key={k}>
-              <h2 className={styles.groupTitle}>{truncate(item.group, 8, '..')} <BsTrash tabIndex="0" className={styles.titleMethodIcon} onClick={() => removeGroup(k)} /> <BsPencilSquare tabIndex="0" className={styles.titleMethodIcon} onClick={() => editGroupModal(k)} /></h2>
+              <h2 className={styles.groupTitle}><span className={styles.actualTitle}>{item.group}</span> <BsTrash tabIndex="0" className={styles.titleMethodIcon} onClick={() => removeGroup(k)} /> <BsPencilSquare tabIndex="0" className={styles.titleMethodIcon} onClick={() => editGroupModal(k)} /></h2>
 
               <button className={styles.createTaskBtn} data-index={k} onClick={() => addTaskModal(k)}><BsPlus className={styles.addTaskIcon} /> Add Task</button>
 
@@ -262,7 +252,7 @@ export default function Home() {
                     {
                       task.important ?
                         <span className={styles.text}><span className={styles.importantMark}>!</span> <span className={styles.actualTask}>{task.task}</span></span> :
-                        <span className={styles.text}><span className={styles.actualTask}>{truncate(task.task, 20, '...')}</span></span>
+                        <span className={styles.text}><span className={styles.actualTask}>{task.task}</span></span>
                     }
                     <div className={styles.taskFunctions}>
                       <BsPencilSquare tabIndex="0" className={styles.editIcon} onClick={() => editTaskModal(k, i)} />

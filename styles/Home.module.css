@@ -243,7 +243,6 @@
 }
 
 .groupTitle {
-  font-size: 2rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -252,21 +251,22 @@
   max-width: 100%;
 }
 
+.actualTitle {
+  font-size: 2rem;
+}
+
 .titleMethodIcon {
   cursor: pointer;
   background-color: rgba(0, 0, 0, .1);
   padding: .2rem;
   border-radius: .2rem;
-  font-size: 2rem;
+  font-size: 2rem !important;
 }
 
 @media (max-width: 500px) {
-  .groupTitle {
+  .actualTitle {
+    max-width: 50%;
     font-size: 1.8rem;
-  }
-
-  .titleMethodIcon {
-    font-size: 3rem;
   }
 }
 
@@ -339,7 +339,7 @@
 }
 
 .dark .done .actualTask {
-  color:rgb(156, 156, 156) !important;
+  color: rgb(156, 156, 156) !important;
 }
 
 .important {
@@ -363,7 +363,7 @@
   .text {
     max-width: calc(85vw - calc(1.2rem + 5rem));
     overflow: hidden;
-  }  
+  }
 }
 
 .important .importantMark {
@@ -396,7 +396,10 @@
   }
 }
 
-.editIcon, .statusIcon, .deleteTask, .importanceIcon {
+.editIcon,
+.statusIcon,
+.deleteTask,
+.importanceIcon {
   cursor: pointer;
   font-size: 1.4rem;
 }
