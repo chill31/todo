@@ -271,7 +271,7 @@ export default function Home() {
 
         </div>
 
-        <div className={`${styles.mainModal} ${groupVisible ? styles.visible : ""} mainModal`} data-modal="true">
+        <div className={`${styles.mainModal} ${groupVisible ? styles.visible : ''} mainModal`} data-modal="true">
 
           <div className={styles.modal}>
 
