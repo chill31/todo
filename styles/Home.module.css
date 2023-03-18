@@ -49,6 +49,7 @@
   font-size: 1.3rem;
   border-radius: .4rem;
   border: solid 1px black;
+  color: black;
   outline: none !important;
   cursor: pointer;
   display: flex;
