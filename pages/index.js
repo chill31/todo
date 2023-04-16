@@ -57,21 +57,21 @@ export default function Home() {
   const addGroup = () => {
     const input = document.querySelector('.group-input');
 
-    const effectTasks = JSON.parse(localStorage.getItem("todo-app-data"));
-    effectTasks.push({ group: input.value, pinned: false, tasks: [] });
+    const fnData = [...data];
+    fnData.push({ group: input.value, pinned: false, tasks: [] });
 
-    setData(effectTasks);
+    setData(fnData);
     closeModal();
-    localStorage.setItem("todo-app-data", JSON.stringify(effectTasks));
+    localStorage.setItem("todo-app-data", JSON.stringify(fnData));
   }
 
   const removeGroup = (index) => {
 
-    const updatedData = [...data];
-    updatedData.splice(index, 1);
+    const fnData = [...data];
+    fnData.splice(index, 1);
 
-    setData(updatedData);
-    localStorage.setItem("todo-app-data", JSON.stringify(updatedData));
+    setData(fnData);
+    localStorage.setItem("todo-app-data", JSON.stringify(fnData));
 
   }
 
@@ -254,7 +254,7 @@ export default function Home() {
 
         <div className={styles.groupContainer}>
 
-          {data.sort((a, b) => { // putting the pinned groups first
+          {data.sort((a, b) => {
             if (a.pinned && !b.pinned) {
               return -1;
             } else if (!a.pinned && b.pinned) {
