@@ -227,6 +227,10 @@
   overflow-x: hidden;
 }
 
+.group.pinned {
+  background-color: #18dde0;
+}
+
 @media (max-width: 860px) {
 
   .group {
@@ -239,8 +243,13 @@
   background-color: #344d65;
 }
 
+.dark .group.pinned {
+  background-color: #344d65;
+}
+
 .dark .group :where(.groupTitle, .titleMethodIcon, .tasks) {
-  color: white;
+  color: white !important;
+  fill: white;
 }
 
 .groupTitle {
@@ -256,12 +265,22 @@
   font-size: 2rem;
 }
 
+.titleMethodWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .titleMethodIcon {
   cursor: pointer;
   background-color: rgba(0, 0, 0, .1);
   padding: .2rem;
   border-radius: .2rem;
   font-size: 2rem !important;
+  height: 2rem;
+  width: 2rem;
 }
 
 @media (max-width: 500px) {
@@ -356,8 +375,8 @@
   justify-content: flex-start;
   align-items: center;
   gap: 1rem;
-  line-break: loose;
-  max-width: calc(65vw - calc(1.2rem + 3rem))
+  line-break: anywhere;
+  max-width: 80%;
 }
 
 @media (max-width: 860px) {

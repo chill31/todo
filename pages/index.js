@@ -3,7 +3,8 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
 // UI IMPORTS
-import { BsPlus, BsXLg, BsTrash, BsPencilSquare, BsCheck2Square, BsSun, BsMoon } from 'react-icons/bs'
+import { BsPlus, BsXLg, BsTrash, BsPencilSquare, BsCheck2Square, BsSun, BsMoon, BsPinAngle } from 'react-icons/bs'
+import RemovePin from '../components/removePin'
 
 // HOOKS IMPORTS
 import { useEffect, useState } from 'react'
@@ -57,7 +58,7 @@ export default function Home() {
     const input = document.querySelector('.group-input');
 
     const effectTasks = JSON.parse(localStorage.getItem("todo-app-data"));
-    effectTasks.push({ group: input.value, tasks: [] });
+    effectTasks.push({ group: input.value, pinned: false, tasks: [] });
 
     setData(effectTasks);
     closeModal();
@@ -84,13 +85,29 @@ export default function Home() {
 
     const input = document.getElementById("edit-group-input");
     const index = document.getElementById("edit-group-modal").getAttribute("data-index");
-    let fnData = data;
+    let fnData = [...data];
 
     fnData[index].group = input.value;
     setData(fnData);
     localStorage.setItem("todo-app-data", JSON.stringify(fnData));
 
     closeEditGroupModal();
+  }
+
+  const addGroupPin = (index) => {
+    let fnData = [...data];
+    fnData[index].pinned = true;
+
+    setData(fnData);
+    localStorage.setItem("todo-app-data", JSON.stringify(fnData));
+  }
+
+  const removeGroupPin = (index) => {
+    let fnData = [...data];
+    fnData[index].pinned = false;
+
+    setData(fnData);
+    localStorage.setItem("todo-app-data", JSON.stringify(fnData));
   }
 
   // when add task button is clicked.
@@ -103,7 +120,7 @@ export default function Home() {
     const mainModalIndexAttribute = document.getElementById("task-modal").getAttribute("data-index");
     const input = document.getElementById('task-input');
 
-    let fnData = data;
+    let fnData = [...data];
 
     fnData[mainModalIndexAttribute].tasks.push({ task: input.value, done: false, important: false });
     setData(fnData);
@@ -123,7 +140,7 @@ export default function Home() {
 
     const input = document.getElementById("edit-task-input");
 
-    let fnData = data;
+    let fnData = [...data];
     fnData[groupIndex].tasks[taskIndex].task = input.value;
     setData(fnData);
 
@@ -165,7 +182,7 @@ export default function Home() {
 
   const setTheme = () => {
     const storage = JSON.parse(localStorage.getItem("todo-app-theme-isdark"));
-    if(storage == true) {
+    if (storage == true) {
       document.body.classList.add('dark');
       document.body.classList.remove('light');
     } else {
@@ -210,7 +227,7 @@ export default function Home() {
       });
     });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -237,9 +254,25 @@ export default function Home() {
 
         <div className={styles.groupContainer}>
 
-          {data.map((item, k) => (
-            <div className={styles.group} key={k}>
-              <h2 className={styles.groupTitle}><span className={styles.actualTitle}>{item.group}</span> <BsTrash tabIndex="0" className={styles.titleMethodIcon} onClick={() => removeGroup(k)} /> <BsPencilSquare tabIndex="0" className={styles.titleMethodIcon} onClick={() => editGroupModal(k)} /></h2>
+          {data.sort((a, b) => { // putting the pinned groups first
+            if (a.pinned && !b.pinned) {
+              return -1;
+            } else if (!a.pinned && b.pinned) {
+              return 1;
+            } else {
+              return 0;
+            }
+          }).map((item, k) => (
+            <div className={`${styles.group} ${item.pinned ? styles.pinned : ''}`} key={k}>
+              <h2 className={styles.groupTitle}>
+                <span className={styles.actualTitle}>{item.group}</span>
+
+                <div className={styles.titleMethodWrapper}>
+                  <BsTrash tabIndex="0" className={styles.titleMethodIcon} onClick={() => removeGroup(k)} />
+                  <BsPencilSquare tabIndex="0" className={styles.titleMethodIcon} onClick={() => editGroupModal(k)} />
+                  {item.pinned ? <RemovePin onClick={() => removeGroupPin(k)} customStrokeColor={darkTheme ? '#ffffff' : '#000000'} /> : <BsPinAngle className={styles.titleMethodIcon} onClick={() => addGroupPin(k)} />}
+                </div>
+              </h2>
 
               <button className={styles.createTaskBtn} data-index={k} onClick={() => addTaskModal(k)}><BsPlus className={styles.addTaskIcon} /> Add Task</button>
 
