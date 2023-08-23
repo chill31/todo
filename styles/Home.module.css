@@ -273,6 +273,11 @@
   flex-wrap: wrap;
 }
 
+.titleMethodButton {
+  background-color: transparent;
+  border: none;
+}
+
 .titleMethodIcon {
   cursor: pointer;
   background-color: rgba(0, 0, 0, .1);
@@ -362,14 +367,6 @@
   color: rgb(156, 156, 156) !important;
 }
 
-.important {
-  background-color: rgba(255, 0, 0, 0.422);
-}
-
-.dark .important {
-  background-color: rgba(255, 0, 0, .229);
-}
-
 .text {
   display: flex;
   justify-content: flex-start;
@@ -384,19 +381,6 @@
     max-width: calc(85vw - calc(1.2rem + 5rem));
     overflow: hidden;
   }
-}
-
-.important .importantMark {
-  font-size: 2rem;
-}
-
-.important .text {
-  padding-left: .5rem;
-  padding-right: .7rem;
-}
-
-.important .deleteTask {
-  color: black;
 }
 
 .normal {
@@ -414,6 +398,11 @@
   .taskFunctions {
     gap: .8rem;
   }
+}
+
+.taskFunctionsButton {
+  background-color: transparent;
+  border: none;
 }
 
 .editIcon,

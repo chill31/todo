@@ -122,7 +122,7 @@ export default function Home() {
 
     let fnData = [...data];
 
-    fnData[mainModalIndexAttribute].tasks.push({ task: input.value, done: false, important: false });
+    fnData[mainModalIndexAttribute].tasks.push({ task: input.value, done: false });
     setData(fnData);
     localStorage.setItem("todo-app-data", JSON.stringify(fnData));
     closeTaskModal();
@@ -268,9 +268,26 @@ export default function Home() {
                 <span className={styles.actualTitle}>{item.group}</span>
 
                 <div className={styles.titleMethodWrapper}>
-                  <BsTrash tabIndex="0" className={styles.titleMethodIcon} onClick={() => removeGroup(k)} />
-                  <BsPencilSquare tabIndex="0" className={styles.titleMethodIcon} onClick={() => editGroupModal(k)} />
-                  {item.pinned ? <RemovePin onClick={() => removeGroupPin(k)} customStrokeColor={darkTheme ? '#ffffff' : '#000000'} /> : <BsPinAngle className={styles.titleMethodIcon} onClick={() => addGroupPin(k)} />}
+
+                  <button className={styles.titleMethodButton} onClick={() => removeGroup(k)}>
+                    <BsTrash className={styles.titleMethodIcon} />
+                  </button>
+
+                  <button className={styles.titleMethodButton} onClick={() => editGroupModal(k)}>
+                    <BsPencilSquare className={styles.titleMethodIcon} />
+                  </button>
+
+                  {
+                    item.pinned ?
+                      <button onClick={() => removeGroupPin(k)} className={styles.titleMethodButton}>
+                        <RemovePin customStrokeColor={darkTheme ? '#ffffff' : '#000000'} />
+                      </button>
+                      :
+                      <button onClick={() => addGroupPin(k)} className={styles.titleMethodButton}>
+                        <BsPinAngle className={styles.titleMethodIcon} />
+                      </button>
+                  }
+
                 </div>
               </h2>
 
@@ -282,15 +299,30 @@ export default function Home() {
 
                   <li className={`${styles.task} ${task.done ? styles.done : styles.pending}`} key={i + 1000}>
 
-                    {
-                      task.important ?
-                        <span className={styles.text}><span className={styles.importantMark}>!</span> <span className={styles.actualTask}>{task.task}</span></span> :
-                        <span className={styles.text}><span className={styles.actualTask}>{task.task}</span></span>
-                    }
+
+                    <span className={styles.text}><span className={styles.actualTask}>{task.task}</span></span>
+
                     <div className={styles.taskFunctions}>
-                      <BsPencilSquare tabIndex="0" className={styles.editIcon} onClick={() => editTaskModal(k, i)} />
-                      {task.done ? <BsXLg tabIndex="0" className={styles.statusIcon} onClick={() => setTaskAsPending(k, i)} /> : <BsCheck2Square tabIndex="0" className={styles.statusIcon} onClick={() => setTaskAsDone(k, i)} />}
-                      <BsTrash tabIndex="0" className={styles.deleteTask} onClick={() => deleteTask(k, i)} />
+                      
+                      <button onClick={() => editTaskModal(k, i)} className={styles.taskFunctionsButton}>
+                        <BsPencilSquare className={styles.editIcon} />
+                      </button>
+
+                      
+                      {
+                        task.done ?
+                        <button onClick={() => setTaskAsPending(k, i)} className={styles.taskFunctionsButton}>
+                          <BsXLg className={styles.statusIcon} />
+                        </button>
+                        :
+                        <button onClick={() => setTaskAsDone(k, i)} className={styles.taskFunctionsButton}>
+                          <BsCheck2Square className={styles.statusIcon} />
+                        </button>
+                      }
+
+                      <button onClick={() => deleteTask(k, i)} className={styles.taskFunctionsButton}>
+                        <BsTrash className={styles.deleteTask} />
+                      </button>
 
                     </div>
 
